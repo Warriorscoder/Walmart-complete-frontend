@@ -135,7 +135,7 @@ function Login() {
         pauseOnHover={false}
         theme="light"
         transition={Bounce} 
-        className={'z-50'}// Corrected prop syntax
+        className={'top-14'}// Corrected prop syntax
       />
        <TopLoader
         progress={progress}

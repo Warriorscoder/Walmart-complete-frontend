@@ -1,11 +1,12 @@
 import React from 'react'
-import Main from '../components/Main'
+import Main2 from '../components/Main2'
 
 
 function Landingpage() {
   return (
     <>
-    <Main/>
+    {/* <Main/> */}
+    <Main2/>
     </>
   )
 }
