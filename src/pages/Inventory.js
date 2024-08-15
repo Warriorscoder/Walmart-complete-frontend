@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Dashboardcartup from "../components/Dashboardcartup";
 import Dashboardcarddown from "../components/Dashboardcarddown";
 import SIdebar from "../components/SIdebar";
 import { Link } from "react-router-dom";
+// import Usercontext from "../Context/Usercontext";
 
 function Inventory() {
+  
   const [dashboardData, setDashboardData] = useState(null);
   const [salesLength, setSalesLength] = useState(null);
+  const [costomerid, setCostomerid] = useState();
+  // const {userloggedin} = useContext(Usercontext)
 
+  // console.log(userloggedin)
   useEffect(() => {
     const fetchData = async () => {
-      const queryProducts = `query Products {
+      // setCostomerid(userloggedin.customerId)
+      const queryProducts = `query Products { 
         products {
           productName
           offerPercentage
@@ -43,7 +49,7 @@ function Inventory() {
             },
             body: JSON.stringify({
               query: querySalesLength,
-              variables: { customerId: "your-customer-id" }, // Replace with actual customerId
+              // variables: {customerId:costomerid}, // Replace with actual customerId
             }),
           }),
         ]);
@@ -51,20 +57,21 @@ function Inventory() {
         if (!productsResponse.ok || !salesResponse.ok) {
           throw new Error("Network response was not ok");
         }
-
+        
         const productsResult = await productsResponse.json();
         const salesResult = await salesResponse.json();
-
+        
+        console.log(salesResult)
         setDashboardData(productsResult.data.products);
-        setSalesLength(salesResult.data.salesLength);
+        // setSalesLength(salesResult.data.salesLength);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+    
     fetchData();
   }, []);
-
+  
   return (
     <>
       <SIdebar />
