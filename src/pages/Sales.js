@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SIdebar from "../components/SIdebar";
-import Usercontext from "../Context/Usercontext";
-import LoadingBar from 'react-top-loading-bar'
+// import LoadingBar from 'react-top-loading-bar'
 
 function Sales() {
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userId, setUserId] = useState();
-  const { userloggedin } = useContext(Usercontext);
 
   // console.log(userId)
 
