@@ -38,7 +38,7 @@ function Purchases() {
 
       try {
         const response = await fetch(
-          "https://walmart-backend-7fgd.onrender.com/graphql",
+          process.env.REACT_APP_BACKEND_LINK,
           {
             method: "POST",
             headers: {

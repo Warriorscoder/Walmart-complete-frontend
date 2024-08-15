@@ -103,7 +103,7 @@ function Newproduct() {
     try {
       setLoading(true);
       setProgress(70);
-      const response = await fetch("https://walmart-backend-7fgd.onrender.com/graphql", {
+      const response = await fetch(process.env.REACT_APP_BACKEND_LINK, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

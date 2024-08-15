@@ -35,6 +35,7 @@ function App() {
             <Route exact path="/sign" element={<Sign />} />
             <Route exact path="/products/:productId" element={<Product />} />
             <Route exact path="/inventory" element={<Inventory />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
             <Route exact path="/sales" element={<Sales />} />
             <Route exact path="/purchases" element={<Purchases />} />
             <Route exact path="/add-products" element={<Newproduct />} />

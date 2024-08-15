@@ -111,6 +111,17 @@ function Navbar() {
                     className="  block py-2 px-3  rounded  md:border-0  md:p-0 mt-1 "
                   >
                 <button disabled={logincheck} className="disabled:text-gray-400 text-gray-900" >
+                    Inventory
+                </button>
+                  </Link>
+              </li>
+              <li>
+                  <Link
+                    to="/dashboard"
+                    
+                    className="  block py-2 px-3  rounded  md:border-0  md:p-0 mt-1 "
+                  >
+                <button disabled={logincheck} className="disabled:text-gray-400 text-gray-900" >
                     Dashboard
                 </button>
                   </Link>
@@ -179,6 +190,20 @@ function Navbar() {
           <li>
             <Link
               to="/inventory"
+              className="block py-2 px-2 text-gray-900 rounded md:border-0 md:hover:text-blue-700 md:p-0 mt-1"
+            >
+              <button
+               disabled={logincheck} 
+               className="disabled:text-gray-400"
+              >
+
+              Inventory
+              </button>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/dashboard"
               className="block py-2 px-2 text-gray-900 rounded md:border-0 md:hover:text-blue-700 md:p-0 mt-1"
             >
               <button
