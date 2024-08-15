@@ -3,6 +3,8 @@ import { Link, Navigate } from 'react-router-dom';
 import { ToastContainer, Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Usercontext from '../Context/Usercontext';
+import TopLoader from 'react-top-loading-bar'
+
 
 function Sign() {
 
@@ -12,6 +14,9 @@ function Sign() {
   const [gender, setGender] = useState('')
   const [redirect, setRedirect] = useState(false);
   const user = useContext(Usercontext)
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
+
 
   const handlechange = (e)=>{
     if(e.target.name === "email")
@@ -54,7 +59,9 @@ const variables = {
 };
   
     try {
-      const response = await fetch('http://localhost:8000/graphql', {
+      setLoading(true);
+      setProgress(70);
+      const response = await fetch('https://walmart-backend-7fgd.onrender.com/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,10 +130,21 @@ const variables = {
 
       console.error('Network error:', error);
     }
+    finally{
+      setProgress(100); // Complete the progress bar
+      setLoading(false);
+    }
   }
   
   return (
     <div className="font-[sans-serif]">
+       <TopLoader
+        progress={progress}
+        color="#00bcd4"
+        height={4}
+        className="absolute top-16 left-0 right-0 z-50"
+      />
+      
  <ToastContainer
   position="top-left"
   autoClose={2000}

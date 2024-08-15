@@ -14,7 +14,7 @@ import Sales from "./pages/Sales";
 import Purchases from "./pages/Purchases";
 import Newproduct from "./pages/Newproduct";
 import Product from "./pages/Product";
-// import Newproduct from "./pages/Newproduct";
+import AppWrapper from "./pages/Apprapper";
 
 function App() {
   // const [inventory, setInventory] = useState(true);
@@ -24,7 +24,10 @@ function App() {
   return (
     <Userstate>
       <Router>
-        <div>
+        
+          <AppWrapper>
+
+          
           <Navebar />
           <Routes>
             <Route exact path="/" element={<Landingpage />} />
@@ -38,7 +41,9 @@ function App() {
             
           </Routes>
           <Footer />
-        </div>
+
+          </AppWrapper>
+        
       </Router>
     </Userstate>
   );

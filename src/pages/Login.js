@@ -3,10 +3,13 @@ import { Link, Navigate } from "react-router-dom";
 import { ToastContainer, Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Usercontext from "../Context/Usercontext";
+import TopLoader from 'react-top-loading-bar'
 
 function Login() {
   const user = useContext(Usercontext);
   const [redirect, setRedirect] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // console.log(user)
   
@@ -38,18 +41,12 @@ function Login() {
   }
 }
     `;
-  //   const getCookie = (name) => {
-  //     const value = `; ${document.cookie}`;
-  //     const parts = value.split(`; ${name}=`);
-  //     if (parts.length === 2) return parts.pop().split(";").shift();
-  //     return null;
-  // };
-
-  
 
     const variables = { email, password };
 
     try {
+      setLoading(true);
+      setProgress(70);
       const response = await fetch("https://walmart-backend-7fgd.onrender.com/graphql", {
         method: "POST",
         headers: {
@@ -64,10 +61,6 @@ function Login() {
       const result = await response.json();
       const { data } = result;
       // console.log(user.userloggedin)
-
-
-      
-
 
       if (result.errors) {
         // setMessage(`Error: ${result.errors[0].message}`);
@@ -122,9 +115,14 @@ function Login() {
       });
       // setMessage(`Error: ${error.message}`);
     }
+    finally {
+      setProgress(100); // Complete the progress bar
+      setLoading(false);
+    }
   };
   return (
     <div className="font-[sans-serif]">
+
       <ToastContainer
         position="top-left"
         autoClose={2000}
@@ -136,9 +134,17 @@ function Login() {
         draggable
         pauseOnHover={false}
         theme="light"
-        transition={Bounce} // Corrected prop syntax
+        transition={Bounce} 
+        className={'z-50'}// Corrected prop syntax
+      />
+       <TopLoader
+        progress={progress}
+        color="#00bcd4"
+        height={4}
+        className="absolute top-16 left-0 right-0 z-0"
       />
       <div className="min-h-screen flex flex-col items-center justify-center">
+      
         <div className="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
           <div className="md:max-w-md w-full px-4 py-4">
             <form>

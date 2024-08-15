@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 import Usercontext from "../Context/Usercontext";
 // import { ToastContainer, Bounce, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
+import TopLoader from 'react-top-loading-bar'
 
 function Navbar() {
   const { userloggedin } = useContext(Usercontext);
   const [logincheck, setLogincheck] = useState(true);
-
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (userloggedin !== null) {
@@ -20,29 +23,43 @@ function Navbar() {
   }, [userloggedin]);
   
   const handlelogout = () => {
+    setLoading(true);
+      setProgress(90);
+
     localStorage.removeItem("token");
 
     setTimeout(() => {
       // 👇️ redirects to an external URL
       window.location.replace("http://localhost:3000/");
     }, 100);
+
+    setProgress(100); // Complete the progress bar
+    setLoading(false);
   };
   const ref = useRef();
 
   const toggle = () => {
-    if (ref.current.classList.contains("block")) {
-      ref.current.classList.remove("block");
-      ref.current.classList.add("hidden");
-    } else if (!ref.current.classList.contains("block")) {
-      ref.current.classList.remove("hidden");
-      ref.current.classList.add("block");
-    }
+   setIsOpen(!isOpen)
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   // console.log(userloggedin)
   return (
     <>
-      <div className="bg-white sticky top-0 w-full z-20 shadow-md">
+      
+      <div className="bg-white sticky top-0 w-full z-20 shadow-md overflow-x-hidden">
         <div className="flex flex-wrap items-center justify-between mx-auto p-4">
           <Link to="/" className="flex items-center space-x-3">
             <img src="logo512.png" className="h-8" alt="Logo" />
@@ -144,7 +161,7 @@ function Navbar() {
 
       <div
         ref={ref}
-        className="absolute bg-white w-40 top-2 right-0 transition hidden z-30"
+        className={`absolute bg-white w-40 top-2 right-0 transition ${!isOpen?'hidden' : "block"} z-30 `}
         id="navbar-default"
       >
         <span
@@ -159,7 +176,13 @@ function Navbar() {
               to="/inventory"
               className="block py-2 px-2 text-gray-900 rounded md:border-0 md:hover:text-blue-700 md:p-0 mt-1"
             >
+              <button
+               disabled={logincheck} 
+               className="disabled:text-gray-400"
+              >
+
               Dashboard
+              </button>
             </Link>
           </li>
           {!userloggedin && (

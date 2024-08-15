@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ToastContainer, Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SIdebar from "../components/SIdebar";
+import TopLoader from 'react-top-loading-bar'
+
 // images: [String!]!
 
 function Newproduct() {
@@ -19,7 +21,8 @@ function Newproduct() {
   const [productname, setProductname] = useState("");
   const [category, setCategory] = useState("");
   const [productdetails, setProductdetails] = useState("");
-  
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
   
   const handlechange = (e)=>{
     if(e.target.name === 'image')
@@ -53,6 +56,7 @@ function Newproduct() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    
   
     const images = image.split(",").map((img) => img.trim());
     // console.log(images)
@@ -97,6 +101,8 @@ function Newproduct() {
     };
   
     try {
+      setLoading(true);
+      setProgress(70);
       const response = await fetch("https://walmart-backend-7fgd.onrender.com/graphql", {
         method: "POST",
         headers: {
@@ -143,12 +149,23 @@ function Newproduct() {
     } catch (error) {
       console.error("Error during fetch:", error);
     }
+    finally{
+      setProgress(100); // Complete the progress bar
+      setLoading(false);
+    }
   };
   
   return (
     <>
      <SIdebar/>
     <section className="">
+    <TopLoader
+        progress={progress}
+        color="#00bcd4"
+        height={4}
+        className="absolute top-16 left-0 right-0 z-50"
+      />
+      
       <ToastContainer
         position="top-left"
         autoClose={2000}

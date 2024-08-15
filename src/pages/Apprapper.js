@@ -2,8 +2,7 @@ import React from "react";
 
 const AppWrapper = ({ children }) => {
   return (
-    <div className=" max-width: 100% overflow-x-hidden ">
-      {" "}
+    <div className=" overflow-hidden">
       {children}
     </div>
   );

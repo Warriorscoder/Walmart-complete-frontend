@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import SIdebar from "../components/SIdebar";
-// import LoadingBar from 'react-top-loading-bar'
+import TopLoader from 'react-top-loading-bar'
 
 function Sales() {
   const [sales, setSales] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // console.log(userId)
 
@@ -13,6 +14,7 @@ function Sales() {
     // setUserId(userloggedin.customerId);
     const fetchSalesDetails = async () => {
       setLoading(true);
+      setProgress(70);
 
       const query = `
      query GetAllSales {
@@ -59,6 +61,7 @@ function Sales() {
       } catch (error) {
         setError(error.message);
       } finally {
+        setProgress(100); // Complete the progress bar
         setLoading(false);
       }
     };
@@ -66,16 +69,18 @@ function Sales() {
     fetchSalesDetails();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (sales.length === 0) return <p>No sales found for this user</p>;
-
   // console.log(sales);
 
   return (
     <>
       <SIdebar />
       <section className="text-gray-600 body-font h-screen">
+      <TopLoader
+        progress={progress}
+        color="#00bcd4"
+        height={4}
+        className="absolute top-16 left-0 right-0 z-50"
+      />
         <div className="container px-5 py-24 mx-auto ">
           <div className="flex flex-col text-center w-full">
             {/* <header className="text-gray-600 body-font mx-auto">
@@ -118,7 +123,10 @@ function Sales() {
                 </tr>
               </thead>
               <tbody>
-                {sales ? sales.map((item) => (
+                {sales ? sales
+                .filter((item) => item.saleType === 'SALE') 
+                .map((item) => (
+                  
                   <tr key={item.storeId}>
                     <td className="px-4 py-3 text-center">₹{item.totalAmount}</td>
                     <td className="px-4 py-3 text-center">{item.cumulativeDiscount}</td>

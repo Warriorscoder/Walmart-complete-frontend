@@ -1,16 +1,32 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 function SIdebar({setinv, setSales, setpro, newpro}) {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const sideref = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const sideref = useRef(null);
+  const buttonRef = useRef(null);
+
+  const togglesidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      (sideref.current && !sideref.current.contains(event.target)) &&
+      (buttonRef.current && !buttonRef.current.contains(event.target))
+    ) {
+      setIsOpen(false);
+    }
+  };
   
-    const togglesidebar = () => {
-      setIsOpen(!isOpen);
-    };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
     return (
       
