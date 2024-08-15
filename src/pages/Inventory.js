@@ -27,9 +27,9 @@ function Inventory() {
         }
       }`;
 
-      const querySalesLength = `query Query($customerId: String!) {
-        salesLength(customerId: $customerId)
-      }`;
+      const querySalesLength = `query Query {
+        salesLength
+      }`
 
       try {
         const [productsResponse, salesResponse] = await Promise.all([
@@ -48,11 +48,10 @@ function Inventory() {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
-              query: querySalesLength,
-              // variables: {customerId:costomerid}, // Replace with actual customerId
+              query: querySalesLength, // Replace with actual customerId
             }),
           }),
-        ]);
+        ])
 
         if (!productsResponse.ok || !salesResponse.ok) {
           throw new Error("Network response was not ok");
@@ -61,9 +60,9 @@ function Inventory() {
         const productsResult = await productsResponse.json();
         const salesResult = await salesResponse.json();
         
-        console.log(salesResult)
+        // console.log(salesResult)
         setDashboardData(productsResult.data.products);
-        // setSalesLength(salesResult.data.salesLength);
+        setSalesLength(salesResult.data.salesLength);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

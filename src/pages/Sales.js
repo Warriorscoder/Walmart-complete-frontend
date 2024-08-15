@@ -49,7 +49,7 @@ function Sales() {
         );
 
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
         
         if (result.errors) {
           setError(result.errors[0].message);
@@ -70,7 +70,7 @@ function Sales() {
   if (error) return <p>Error: {error}</p>;
   if (sales.length === 0) return <p>No sales found for this user</p>;
 
-  console.log(sales);
+  // console.log(sales);
 
   return (
     <>
@@ -92,42 +92,42 @@ function Sales() {
             {/* <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Pricing</h1>
       <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p> */}
           </div>
-          <div className=" w-full mx-auto overflow-auto">
-            <table className="table-auto w-full text-left whitespace-no-wrap">
+          <div className="w-full mx-auto overflow-auto">
+            <table className="table-auto w-full text-center whitespace-no-wrap">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl text-center">
                     Amount
                   </th>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                  cumulativeDiscount
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">
+                    CumulativeDiscount
                   </th>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                  freightPrice
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">
+                    FreightPrice
                   </th>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                  paymentType
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">
+                    PaymentType
                   </th>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                  saleDate
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">
+                    SaleDate
                   </th>
-                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                  storeId
+                  <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">
+                    StoreId
                   </th>
-                  <th className="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+                  <th className="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br text-center"></th>
                 </tr>
               </thead>
               <tbody>
-                {sales ? sales.map((item)=>(
-                <tr key={item.storeId}>
-                  <td className="px-4 py-3">₹400</td>
-                  <td className="px-4 py-3">Pending</td>
-                  <td className="px-4 py-3">2/08/24 </td>
-                  <td className="px-4 py-3 t//ext-lg text-gray-900">xyz</td>
-                </tr>
-
-                ))
-                : "Loading..."}
+                {sales ? sales.map((item) => (
+                  <tr key={item.storeId}>
+                    <td className="px-4 py-3 text-center">₹{item.totalAmount}</td>
+                    <td className="px-4 py-3 text-center">{item.cumulativeDiscount}</td>
+                    <td className="px-4 py-3 text-center">{item.freightPrice}</td>
+                    <td className="px-4 py-3 text-center text-gray-900">{item.paymentType}</td>
+                    <td className="px-4 py-3 text-center text-gray-900">{item.saleDate}</td>
+                    <td className="px-4 py-3 text-center text-gray-900">{item.storeId}</td>
+                  </tr>
+                )) : "Loading..."}
               </tbody>
             </table>
           </div>
