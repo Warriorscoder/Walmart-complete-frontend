@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import TopLoader from 'react-top-loading-bar'
+import { SiGooglegemini } from "react-icons/si";
 
 function Product() {
   const {productId}  = useParams(); // Destructure to get the product ID
@@ -88,15 +89,20 @@ function Product() {
   if (!product) return <p>No product found.</p>; // Handle case where no product is found
 
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-gray-600 body-font ">
        <TopLoader
         progress={progress}
         color="#00bcd4"
         height={4}
         className="absolute top-16 left-0 right-0 z-50"
       />
-
-      <div className="container px-5 py-24 mx-auto">
+      <div className="flex justify-center max-w-lg mx-auto mt-4 rounded-md ">
+        <div className="w-3/4 h-12 login-form flex items-center justify-center  rounded-md bg-gradient-to-r from-cyan-300 to-sky-500"> 
+        <SiGooglegemini className="text-lg text-white" /> 
+        <p className="font-bold text-lg text-white ">Click to get AI recomendations</p>
+        </div>
+      </div>
+      <div className="container px-5 py-24 mx-auto ">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
             alt="ecommerce"

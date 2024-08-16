@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.login-form {
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border: 1px solid transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    /* border-radius: 20px; */
+    box-shadow: 0 25px 50px rgba(255, 255, 255, 0.1);
+    /* padding: 4rem; */
+    /* width: 40rem; */
+  }
