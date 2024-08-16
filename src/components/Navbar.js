@@ -64,11 +64,11 @@ function Navbar() {
         height={4}
         className="absolute top-16 left-0 right-0"
       />
-      <div className="bg-white sticky top-0 w-full z-20 shadow-md overflow-x-hidden">
-        <div className="flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className=" bg-white sticky top-0 w-full z-20 shadow-md overflow-x-hidden">
+        <div className="flex flex-wrap items-center justify-between mx-auto p-4 ">
           <Link to="/" className="flex items-center space-x-3">
             <img src="logo512.png" className="h-8" alt="Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-900">
               Walmart
             </span>
           </Link>
@@ -216,7 +216,7 @@ function Navbar() {
             </Link>
           </li>
           {!userloggedin && (
-            <button className="inline-flex text-white items-center bg-cyan-500 border-0 py-1 px-3 focus:outline-none hover:bg-fuchsia-500 transition-all duration-700 rounded text-base mt-4 md:mt-0">
+            <button className="inline-flex text-gray-900 items-center bg-cyan-500 border-0 py-1 px-3 focus:outline-none hover:bg-fuchsia-500 transition-all duration-700 rounded text-base mt-4 md:mt-0">
               <Link to="/login">Login</Link>
               <svg
                 fill="none"
@@ -234,7 +234,7 @@ function Navbar() {
           {userloggedin && (
             <button
               onClick={handlelogout}
-              className="inline-flex text-white items-center bg-cyan-500 border-0 py-1 px-3 focus:outline-none hover:bg-fuchsia-500 transition-all duration-700 rounded text-base mt-4 md:mt-0"
+              className="inline-flex text-gray-900 items-center bg-cyan-500 border-0 py-1 px-3 focus:outline-none hover:bg-fuchsia-500 transition-all duration-700 rounded text-base mt-4 md:mt-0"
             >
               Logout
               <svg

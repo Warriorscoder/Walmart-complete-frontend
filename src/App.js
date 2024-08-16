@@ -15,6 +15,7 @@ import Purchases from "./pages/Purchases";
 import Newproduct from "./pages/Newproduct";
 import Product from "./pages/Product";
 import AppWrapper from "./pages/Apprapper";
+import Createsales from "./pages/Createsales";
 
 function App() {
   // const [inventory, setInventory] = useState(true);
@@ -36,6 +37,8 @@ function App() {
             <Route exact path="/products/:productId" element={<Product />} />
             <Route exact path="/inventory" element={<Inventory />} />
             <Route exact path="/dashboard" element={<Dashboard />} />
+
+            <Route exact path="/createsales" element={<Createsales />} />
             <Route exact path="/sales" element={<Sales />} />
             <Route exact path="/purchases" element={<Purchases />} />
             <Route exact path="/add-products" element={<Newproduct />} />

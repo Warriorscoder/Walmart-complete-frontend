@@ -1,11 +1,10 @@
-import React, {useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 // import Dashboardcartup from "../components/Dashboardcartup";
 import Dashboardcarddown from "../components/Dashboardcarddown";
 import SIdebar from "../components/SIdebar";
 import { Link } from "react-router-dom";
 import TopLoader from 'react-top-loading-bar'
-
-// import Usercontext from "../Context/Usercontext";
+import Usercontext from "../Context/Usercontext";
 
 function Inventory() {
   
@@ -15,7 +14,7 @@ function Inventory() {
   const [loading, setLoading] = useState(false);
 
   // const [costomerid, setCostomerid] = useState();
-  // const {userloggedin} = useContext(Usercontext)
+  const {userloggedin} = useContext(Usercontext)
 
   // console.log(userloggedin)
   useEffect(() => {
@@ -96,7 +95,7 @@ function Inventory() {
         className="absolute top-16 left-0 right-0 z-50"
       />
       
-        Hey!, Name
+        Hey!, {userloggedin.name}
       </h1>
       <section className="body-font ">
         <div className="lg:container md:px-3 py-10 lg:mx-auto bg-white border-2 rounded-xl">

@@ -9,9 +9,11 @@ function Main2() {
 
   return (
     <div>
+
       <ScrollAnimation triggerOnce={false}>
         <Submain2 contactref={contactref} />
       </ScrollAnimation>
+
       <div className="flex justify-center mt-20">
         <ScrollAnimation triggerOnce={true}>
           <img

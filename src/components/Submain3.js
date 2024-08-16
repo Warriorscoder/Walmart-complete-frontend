@@ -14,7 +14,7 @@ function Submain3() {
 
   return (
    <>
-    <div className={`bg-white leading-tight` }>
+    <div className={`bg-gra leading-tight` }>
 
 <div className={` container mx-auto p-20transition-opacity duration-1000 ${
               isVisible ? "opacity-100" : "opacity-0"

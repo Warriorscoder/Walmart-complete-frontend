@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import TopLoader from 'react-top-loading-bar'
-import { SiGooglegemini } from "react-icons/si";
+import Aisuggetions from "../components/Aisuggetions";
 
 function Product() {
   const {productId}  = useParams(); // Destructure to get the product ID
   const [product, setProduct] = useState(null); // Use state to store the fetched product data
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState(null); // To manage error state
-
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [prediction, setPrediction] = useState(null)
+  const [predictionRF, setPredictionRF] = useState(null); // Prediction from /predict_rf
+  
   useEffect(() => {
     const fetchProdData = async () => {
-      const variables = { productId:productId }; // Correctly set the variables
+      const variables = { productId: productId }; // Correctly set the variables
 
       const query = `query Product($productId: String!) {
         product(productId: $productId) {
@@ -37,32 +39,102 @@ function Product() {
 
       try {
         setLoading(true);
-      setProgress(70);
-        const response = await fetch(
-          process.env.REACT_APP_BACKEND_LINK,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: JSON.stringify({
-              query,
-              variables,
-            }),
-          }
-        );
+        setProgress(70);
+        const response = await fetch(process.env.REACT_APP_BACKEND_LINK, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            query,
+            variables,
+          }),
+        });
 
         if (!response.ok) {
           throw new Error("Could not fetch Product");
         }
 
         const result = await response.json();
-        
         const { data } = result;
 
         if (data && data.product) {
           setProduct(data.product); // Update the state with the fetched product data
+
+          const timestamp = Number(data.product.manufactureDate); // Convert the string or number to a number
+
+          if (isNaN(timestamp)) {
+            console.error("Invalid date format:", data.product.manufactureDate);
+          } else {
+            const date = new Date(timestamp);
+
+            // Features for the /predict endpoint (6 features)
+            const featuresForPredict = [
+              data.product.quantity || 0,
+              data.product.costPrice || 0,
+              data.product.images.length || 0,
+              data.product.customerRating || 0,
+              date.getMonth() + 1, // Convert to 1-based month
+              date.getFullYear(), // Get the year
+            ];
+
+            // Send features to the /predict API for prediction
+            const response1 = await fetch(
+              "https://flask-walmart-model.onrender.com/predict",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  features: [featuresForPredict], // Ensure it's an array of arrays
+                }),
+              }
+            );
+
+            if (!response1.ok) {
+              throw new Error("Could not fetch prediction from /predict");
+            }
+
+            const predictionResult1 = await response1.json();
+            setPrediction(Math.round(predictionResult1.predictions[0]));
+
+            // Features for the /predict_rf endpoint (10 features)
+            const featuresForPredictRF = [
+              data.product.sellingPrice - data.product.costPrice, // Profit
+              data.product.costPrice || 0, // ProductStandardCost
+              data.product.sellingPrice || 0, // ProductListPrice
+              0, // CustomerCreditLimit (Placeholder)
+              data.product.quantity || 0, // OrderItemQuantity
+              data.product.sellingPrice / (data.product.quantity || 1), // PerUnitPrice
+              3, // RegionName (Placeholder)
+              5, // State (Placeholder)
+              5, // City (Placeholder)
+              6, // PostalCode (Placeholder)
+            ];
+
+            // Send features to the /predict_rf API for prediction
+            const response2 = await fetch(
+              "https://flask-walmart-model.onrender.com/predict_rf",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  features: [featuresForPredictRF], // Ensure it's an array of arrays
+                }),
+              }
+            );
+
+            if (!response2.ok) {
+              throw new Error("Could not fetch prediction from /predict_rf");
+            }
+
+            const predictionResult2 = await response2.json();
+            setPredictionRF(Math.round(predictionResult2.predictions[0]));
+          }
         } else {
           throw new Error("Product not found");
         }
@@ -96,11 +168,10 @@ function Product() {
         height={4}
         className="absolute top-16 left-0 right-0 z-50"
       />
-      <div className="flex justify-center max-w-lg mx-auto mt-4 rounded-md ">
-        <div className="w-3/4 h-12 login-form flex items-center justify-center  rounded-md bg-gradient-to-r from-cyan-300 to-sky-500"> 
-        <SiGooglegemini className="text-lg text-white" /> 
-        <p className="font-bold text-lg text-white ">Click to get AI recomendations</p>
-        </div>
+      <div className="flex justify-center mx-auto mt-4 rounded-md ">
+      <button className="items-center justify-center" id="ai" onClick={() => setIsExpanded(!isExpanded)}>
+          <Aisuggetions isExpanded={isExpanded} prediction={prediction} predictionRF={predictionRF} />
+        </button>
       </div>
       <div className="container px-5 py-24 mx-auto ">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">

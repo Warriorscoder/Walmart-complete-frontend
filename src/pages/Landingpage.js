@@ -6,7 +6,10 @@ function Landingpage() {
   return (
     <>
     {/* <Main/> */}
+    <div className='bg-white'>
+
     <Main2/>
+    </div>
     </>
   )
 }
